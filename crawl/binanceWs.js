@@ -13,20 +13,19 @@ async function createWebsocket_spot () {
         let ws = new WebSocket('wss://stream.binance.com:9443/stream');
         ws.onopen = async function () {
             console.log(new Date().toLocaleString(), 'Binance spot ws is running!');
-            let coinPairs = JSON.parse(process.env.coinPairs);
-            let arr = [];
-            for(index in coinPairs){
-                let value = index + '@depth20@100ms';
-                arr.push(value);
+            let values = [];
+            let coinPairs = process.env.coinPairs;
+            coinPairs = JSON.parse(coinPairs);
+            for (let coinPair of coinPairs) {
+                let value = coinPair + '@depth20@100ms';
+                values.push(value);
             }
             let subInfo = {
-                'method':'SUBSCRIBE',
-                'params':arr,
-                'id':1,
+                "method": "SUBSCRIBE",
+                "params": values,
+                "id": 1,
             }
-            ws.send(JSON.stringify(subInfo), (err) => {
-                console.log(err);
-            });
+            ws.send(JSON.stringify(subInfo));
         }
         ws.onmessage = async function (data) {
             if(data && data.data){
