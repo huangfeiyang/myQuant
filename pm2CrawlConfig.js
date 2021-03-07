@@ -3,10 +3,13 @@ module.exports = {
         {
             'name': 'binanceWs',
             'script': './crawl/binanceWs.js',
-            'env': {
-                'coinPairs':['ethusdt', 'btcusdt',],
-            },
+            'cwd': '.',
+            'instances': 1,
             'exec_mode': 'cluster',
+            'node_args': '--harmony',
+            'env': {
+                'coinPairs':  ['ethusdt', 'btcusdt'],
+            },
         }
     ]
 }
