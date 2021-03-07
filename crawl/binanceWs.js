@@ -31,10 +31,12 @@ async function createWebsocket_spot () {
         ws.onmessage = async function (data) {
             if(data && data.data){
                 let info = JSON.parse(data.data);
-                console.log(info);
-                if(info && info.data){
+                // console.log(info);
+                let str = info.stream;
+                if(info.stream && info.data){
                     // console.log(info.data.asks, info.data.bids);
-
+                    let instrumentId = str.substring(0, str.indexOf('@')).toLocaleUpperCase();
+                    console.log(instrumentId);
                 }
             }
         }
