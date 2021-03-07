@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 const CronJob = require('cron').CronJob;
 const constInfo = require('../util/constInfo');
+const redisService = require('../db/redisService');
 let lockReconnect_spot = false;
 
 
@@ -36,7 +37,19 @@ async function createWebsocket_spot () {
                 if(info.stream && info.data){
                     // console.log(info.data.asks, info.data.bids);
                     let instrumentId = str.substring(0, str.indexOf('@')).toLocaleUpperCase();
-                    console.log(instrumentId);
+                    // console.log(instrumentId);
+                    let bookInfo = info.data;
+                    let timestamp = Date.now();
+                    let asks = bookInfo.asks;
+                    let bids = bookInfo.bids;
+                    let orderBook = {
+                        instrumentId,
+                        timestamp,
+                        asks,
+                        bids,
+                    }
+                    let orderBookKey = 'spot' + '_' + instrumentId;
+                    await redisService.setCurrentOrderBookInLocal('Binance', orderBookKey, JSON.stringify(orderBook));
                 }
             }
         }
