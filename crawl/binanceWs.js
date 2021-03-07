@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const CronJob = require('cron').CronJob;
+const constInfo = require('../util/constInfo');
 let lockReconnect_spot = false;
 
 
@@ -14,7 +15,7 @@ async function createWebsocket_spot () {
         ws.onopen = async function () {
             console.log(new Date().toLocaleString(), 'Binance spot ws is running!');
             let values = [];
-            let coinPairs = process.env.coinPairs;
+            let coinPairs = constInfo.coinPair;
             coinPairs = JSON.parse(coinPairs);
             for (let coinPair of coinPairs) {
                 let value = coinPair + '@depth20@100ms';
