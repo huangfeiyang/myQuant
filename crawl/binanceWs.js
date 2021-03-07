@@ -31,9 +31,10 @@ async function createWebsocket_spot () {
         ws.onmessage = async function (data) {
             if(data && data.data){
                 let info = JSON.parse(data.data);
-                // console.log(info);
+                console.log(info);
                 if(info && info.data){
-                    console.log(info.data.asks, info.data.bids);
+                    // console.log(info.data.asks, info.data.bids);
+
                 }
             }
         }
