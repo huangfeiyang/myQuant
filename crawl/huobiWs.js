@@ -20,7 +20,6 @@ async function createWebSocket_spot () {
             let info = JSON.parse(pako.inflate(data.data, {
                 to: 'string'
             }));
-            console.log(info);
             if(info.ping) {
                 let res = info.ping;
                 let pong = {
