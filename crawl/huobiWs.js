@@ -10,11 +10,15 @@ async function createWebSocket_spot () {
         let ws = new WebSocket('wss://api.hadax.com/ws');
         ws.onopen = async function(){
             console.log(new Date().toLocaleString(), 'Huobi spot ws is running!');
-            let subInfo = {
-                "sub": "market.btcusdt.depth.step2",
-                "id": "6"
-            };
-            ws.send(JSON.stringify(subInfo));
+            let coinPairs = constInfo.coinPair.coinPairs;
+            for(coinPair in coinPairs){
+                let value = 'market.' + coinPair + '.depth.step2';
+                let subInfo = {
+                    "sub": value,
+                    "id": "2"
+                };
+                ws.send(JSON.stringify(subInfo));
+            }
         }
         ws.onmessage = async function (data) {
             let info = JSON.parse(pako.inflate(data.data, {
