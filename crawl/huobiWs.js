@@ -11,8 +11,8 @@ async function createWebSocket_spot () {
         ws.onopen = async function(){
             console.log(new Date().toLocaleString(), 'Huobi spot ws is running!');
             let coinPairs = constInfo.coinPair.coinPairs;
-            for(coinPair in coinPairs){
-                let value = 'market.' + coinPair + '.depth.step2';
+            for(i in coinPairs){
+                let value = 'market.' + coinPairs[i] + '.depth.step2';
                 let subInfo = {
                     "sub": value,
                     "id": "2"
